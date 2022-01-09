@@ -1,11 +1,5 @@
 from abc import ABC, abstractmethod
-class Character(ABC):
-    def __init__(self,name,attack,defense,life):
-        self.__name = name
-        self.__attack = attack
-        self.__defense = defense
-        self.__life = life
-    
+class Character(ABC):    
     @property
     @abstractmethod
     def name(self):
