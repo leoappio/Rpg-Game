@@ -1,9 +1,10 @@
-class BaseView():
+import os
 
-    def clear_screen():
+class BaseView():
+    def clear_screen(self):
         os.system('cls' if os.name == 'nt' else 'clear')
     
-    def show_error(error):
+    def show_error(self,error):
         red = '\033[31m'
         white = '\033[0;0m'
         print(red + error + white)
