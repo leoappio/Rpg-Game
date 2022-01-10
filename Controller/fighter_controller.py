@@ -6,12 +6,42 @@ class FighterController():
         self.__fighter_view = FighterView()
         self.__player = Player([])
 
+
+    def show_all_fighters_from_player(self):
+        self.__fighter_view.show_see_all_fighters_header()
+        for counter,fighter in enumerate(self.__player.fighters):
+            fighter_data = {'fighter_number': counter+1,
+                            'fighter_name':fighter.name,
+                            'attack_name':fighter.attack.name,
+                            'attack_power':fighter.attack.power,
+                            'defense_name':fighter.defense.name,
+                            'defense_power':fighter.defense.power,
+                            'life':fighter.life}
+            self.__fighter_view.show_fighter_data(fighter_data)
+
+
     def see_all_fighters(self):
-        ...
+        self.show_all_fighters_from_player()
+        self.__fighter_view.return_to_menu()
+
+
+    def select_fighter(self):
+        self.show_all_fighters_from_player()
+        number_selected = self.__fighter_view.select_fighter(len(self.__player.fighters))
+        fighter_selected = self.__player.fighters[number_selected]
+
+        return fighter_selected
     
 
     def edit_fighter(self):
-        ...
+        fighter = self.select_fighter()
+        new_name = self.__fighter_view.edit_name_fighter(fighter.name)
+
+        fighter.name = new_name
+        self.__fighter_view.return_to_menu()
+
+
+
     
 
     def delete_fighter(self):
