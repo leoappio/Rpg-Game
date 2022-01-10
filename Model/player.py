@@ -36,5 +36,9 @@ class Player():
     
     def add_fighter(self, fighter):
         self.__fighters.append(fighter)
+    
+    
+    def remove_fighter(self, fighter):
+        self.__fighters.remove(fighter)
 
     

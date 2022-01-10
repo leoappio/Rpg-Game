@@ -1,10 +1,12 @@
 from View.home_view import HomeView
-
+from Controller.fighter_controller import FighterController
+from Model.player import Player
 class GameController():
     def __init__(self):
         self.__home_screen = HomeView()
+        self.__fighter_controller = FighterController()
         #TODO
-        #self.__player = Player()
+        self.__player = Player([])
     
     def start_game(self):
         self.open_screen()
@@ -13,14 +15,14 @@ class GameController():
         ...
     
     def fighters_menu(self):
-        ...
+        self.__fighter_controller.fighter_menu(self.__player)
     
     def historic(self):
         ...
     
     def open_screen(self):
         options_list = {1: self.new_battle, 2: self.fighters_menu, 3: self.historic}
-        chosen_option = self.__home_screen.show_home_screen_options('10','1')
+        chosen_option = self.__home_screen.show_home_screen_options(self.__player.coin_balance, self.__player.current_battle)
         chosen_function = options_list[chosen_option]
         chosen_function()
 
