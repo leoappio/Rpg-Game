@@ -3,6 +3,8 @@ from View.home_view import HomeView
 class GameController():
     def __init__(self):
         self.__home_screen = HomeView()
+        #TODO
+        #self.__player = Player()
     
     def start_game(self):
         self.open_screen()
