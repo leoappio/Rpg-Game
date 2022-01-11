@@ -1,5 +1,6 @@
 from View.fighter_view import FighterView
 from Model.fighter import Fighter
+import random
 
 class FighterController():
     def __init__(self, game_controller):
@@ -68,7 +69,37 @@ class FighterController():
     
 
     def generate_starting_fighters(self):
-        ...
+        generated_fighters = []
+
+        for num in range(1,4):
+            random_skills = self.random_fighter_skills()
+            attack_power = random_skills['attack']
+            defense_power = random_skills['defense']
+            fighter = Fighter('Fighter '+str(num), 'Attack', attack_power, 'Defense', defense_power, 100)
+            generated_fighters.append(fighter)
+        
+        return generated_fighters
+            
+    
+    def random_fighter_skills(self):
+        skill_range = random.randint(1, 100)
+        random_attack = 0
+        random_defense = 0
+        if skill_range <= 60:
+            random_attack = random.randint(10, 40)
+            random_defense = random.randint(10, 40)
+        elif skill_range <= 85:
+            random_attack = random.randint(41, 50)
+            random_defense = random.randint(41, 50)
+        elif skill_range <= 95:
+            random_attack = random.randint(51, 80)
+            random_defense = random.randint(51, 80)
+        else :
+            random_attack = random.randint(81, 100)
+            random_defense = random.randint(81, 100)
+        
+        return {'attack':random_attack,'defense': random_defense}
+        
 
 
     def fighter_menu(self):

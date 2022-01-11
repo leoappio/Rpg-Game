@@ -6,7 +6,7 @@ class GameController():
         self.__home_screen = HomeView()
         self.__fighter_controller = FighterController(self)
         #TODO
-        self.__player = Player([])
+        self.__player = Player(self.__fighter_controller.generate_starting_fighters())
     
     @property
     def player(self):

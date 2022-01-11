@@ -22,8 +22,8 @@ class FighterView(BaseView):
 
     def show_fighter_data(self,fighter_data):
         print(fighter_data['fighter_number'],'-',fighter_data['fighter_name'])
-        print('Attack',fighter_data['attack_name'],'-',fighter_data['attack_power'], 'power')
-        print('Defense',fighter_data['defense_name'],'-',fighter_data['defense_power'], 'power')
+        print(fighter_data['attack_name'],'-',fighter_data['attack_power'], 'power')
+        print(fighter_data['defense_name'],'-',fighter_data['defense_power'], 'power')
         print('Life',fighter_data['life'],'/100')
 
 

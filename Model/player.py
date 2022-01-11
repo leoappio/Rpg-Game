@@ -1,10 +1,9 @@
 class Player():
     def __init__(self,initial_fighters):
-        self.__fighters = []
+        self.__fighters = initial_fighters
         self.__coin_balance = 0
         self.__current_battle = 1
 
-        self.__fighters.append(initial_fighters)
     
 
     @property
