@@ -65,7 +65,36 @@ class FighterController():
 
 
     def improve_fighter_skill(self):
-        ...
+        if self.__game_controller.player.coin_balance >= 5:
+            self.__fighter_view.show_improve_skill_header()
+            fighter = self.select_fighter()
+            option = self.__fighter_view.show_improve_skill_menu()
+
+            if option == 1:
+                fighter.attack.increase_power()
+                self.__fighter_view.show_skill_improved_confirmation('attack')
+            else:
+                fighter.defense.increase_power()
+                self.__fighter_view.show_skill_improved_confirmation('defense')
+            
+            self.__game_controller.player.remove_coins(5)
+            
+            fighter_data = {'fighter_number': 'Stats',
+                            'fighter_name':fighter.name,
+                            'attack_name':fighter.attack.name,
+                            'attack_power':fighter.attack.power,
+                            'defense_name':fighter.defense.name,
+                            'defense_power':fighter.defense.power,
+                            'life':fighter.life}
+
+            self.__fighter_view.show_fighter_data(fighter_data)
+            self.__fighter_view.return_to_menu()
+            self.fighter_menu()
+        else:
+            self.__fighter_view.log_insuficient_balance_error()
+            self.__fighter_view.return_to_menu()
+            self.fighter_menu()
+
 
 
     def complete_fighter_life(self):

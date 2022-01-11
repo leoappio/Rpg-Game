@@ -16,6 +16,9 @@ class Attack(Skill):
     def power(self):
         return self.__power
     
+    def increase_power(self):
+        self.__power = self.__power + 3
+    
     @power.setter
     def power(self,power):
         self.__power = power

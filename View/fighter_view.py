@@ -25,12 +25,23 @@ class FighterView(BaseView):
         print('-----Select fighter to complete life------')
     
 
+    def show_improve_skill_header(self):
+        self.clear_screen()
+        print('-----Select fighter to improve skill------')
+    
+    
     def show_delete_confirmation(self):
         self.show_success_message('fighter successfully deleted!')
         print()
     
     def show_complete_life_confirmation(self):
         self.show_success_message('life successfully completed!')
+        print()
+    
+
+    def show_skill_improved_confirmation(self, skill):
+        message = 'improved '+skill+'!'
+        self.show_success_message(message)
         print()
     
 
@@ -68,6 +79,14 @@ class FighterView(BaseView):
     def return_to_menu(self):
         print('press enter to return')
         input()
+    
+    def show_improve_skill_menu(self):
+        print('[1] - Improve attack in 3 points = 5 coins')
+        print('[2] - Improve defense in 3 points = 5 coins')
+        while True:
+            option = int(input("Select 1 or 2:"))
+            if option in [1,2]:
+                return option
 
     
     def show_fighter_menu(self):

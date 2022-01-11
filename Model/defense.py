@@ -4,7 +4,7 @@ class Defense(Skill):
         self.__name = name
         self.__power = power
     
-    
+
     @property
     def name(self):
         return self.__name
@@ -16,6 +16,9 @@ class Defense(Skill):
     @property
     def power(self):
         return self.__power
+    
+    def increase_power(self):
+        self.__power = self.__power + 3
     
     @power.setter
     def power(self,power):
