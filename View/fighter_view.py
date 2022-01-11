@@ -15,9 +15,31 @@ class FighterView(BaseView):
         print('-----Select fighter to delete------')
     
 
+    def show_edit_fighter_header(self):
+        self.clear_screen()
+        print('-----Select fighter to edit------')
+    
+
+    def show_complete_life_header(self):
+        self.clear_screen()
+        print('-----Select fighter to complete life------')
+    
+
     def show_delete_confirmation(self):
-        print('fighter successfully deleted!')
+        self.show_success_message('fighter successfully deleted!')
         print()
+    
+    def show_complete_life_confirmation(self):
+        self.show_success_message('life successfully completed!')
+        print()
+    
+
+    def log_cant_delete_fighter_error(self):
+        self.show_error('you must have at least 3 fighters on your account!')
+    
+
+    def log_insuficient_balance_error(self):
+        self.show_error('you dont have enough coins!')
 
 
     def show_fighter_data(self,fighter_data):
@@ -39,14 +61,13 @@ class FighterView(BaseView):
         print('Current name:',old_name)
         new_name = input('New Name: ')
         
-        print('name changed successfully')
+        self.show_success_message('name changed successfully')
         return new_name
     
 
     def return_to_menu(self):
         print('press enter to return')
         input()
-        self.show_fighter_menu()
 
     
     def show_fighter_menu(self):

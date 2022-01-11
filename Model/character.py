@@ -35,8 +35,4 @@ class Character(ABC):
     def life(self):
         return self.__life
     
-    @life.setter
-    @abstractmethod
-    def life(self,life):
-        self.__life = life
     

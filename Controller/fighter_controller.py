@@ -24,32 +24,40 @@ class FighterController():
         self.__fighter_view.show_see_all_fighters_header()
         self.show_all_fighters_from_player()
         self.__fighter_view.return_to_menu()
+        self.fighter_menu()
 
 
     def select_fighter(self):
         self.show_all_fighters_from_player()
         number_selected = self.__fighter_view.select_fighter(len(self.__game_controller.player.fighters))
-        fighter_selected = self.__player.fighters[number_selected]
+        fighter_selected = self.__game_controller.player.fighters[number_selected-1]
 
         return fighter_selected
     
 
     def edit_fighter(self):
+        self.__fighter_view.show_edit_fighter_header()
         fighter = self.select_fighter()
         new_name = self.__fighter_view.edit_name_fighter(fighter.name)
 
         fighter.name = new_name
         self.__fighter_view.return_to_menu()
+        self.fighter_menu()
     
 
     def delete_fighter(self):
-        self.__fighter_view.show_delete_fighter_header()
-        fighter = self.select_fighter()
-        self.__game_controller.player.fighters.remove(fighter)
-        
-        self.__fighter_view.show_delete_confirmation()
-        self.__fighter_view.return_to_menu()
-
+        if len(self.__game_controller.player.fighters) >3:
+            self.__fighter_view.show_delete_fighter_header()
+            fighter = self.select_fighter()
+            self.__game_controller.player.fighters.remove(fighter)
+            
+            self.__fighter_view.show_delete_confirmation()
+            self.__fighter_view.return_to_menu()
+            self.fighter_menu()
+        else:
+            self.__fighter_view.log_cant_delete_fighter_error()
+            self.__fighter_view.return_to_menu()
+            self.fighter_menu()
 
 
     def buy_new_fighter(self):
@@ -61,8 +69,19 @@ class FighterController():
 
 
     def complete_fighter_life(self):
-        ...
-    
+        if self.__game_controller.player.coin_balance >= 10:
+            self.__fighter_view.show_edit_fighter_header()
+            fighter = self.select_fighter()
+            fighter.complete_life()
+            self.__game_controller.player.remove_coins(10)
+            self.__fighter_view.show_complete_life_confirmation()
+            self.__fighter_view.return_to_menu()
+            self.fighter_menu()
+        else:
+            self.__fighter_view.log_insuficient_balance_error()
+            self.__fighter_view.return_to_menu()
+            self.fighter_menu()
+            
 
     def return_to_main_menu(self):
         self.__game_controller.open_screen()

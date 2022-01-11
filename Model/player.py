@@ -1,7 +1,7 @@
 class Player():
     def __init__(self,initial_fighters):
         self.__fighters = initial_fighters
-        self.__coin_balance = 0
+        self.__coin_balance = 100
         self.__current_battle = 1
 
     
