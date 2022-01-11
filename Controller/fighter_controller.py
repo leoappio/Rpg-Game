@@ -1,4 +1,5 @@
 from View.fighter_view import FighterView
+from Model.fighter import Fighter
 
 class FighterController():
     def __init__(self, game_controller):
@@ -64,6 +65,10 @@ class FighterController():
 
     def return_to_main_menu(self):
         self.__game_controller.open_screen()
+    
+
+    def generate_starting_fighters(self):
+        ...
 
 
     def fighter_menu(self):
