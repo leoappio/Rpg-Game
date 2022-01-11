@@ -4,4 +4,9 @@ class Fighter(Character):
         self.__attack = attack
         self.__defense = defense
         self.__life = life
+    
+    def generate_random_fighter(self):
+        ...
+    
+
 

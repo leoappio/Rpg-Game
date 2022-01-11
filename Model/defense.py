@@ -1,0 +1,3 @@
+class Defense():
+    def __init__(self):
+        ...

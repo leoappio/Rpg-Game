@@ -8,6 +8,16 @@ class FighterView(BaseView):
     def show_see_all_fighters_header(self):
         self.clear_screen()
         print('-----See all fighters------')
+    
+    
+    def show_delete_fighter_header(self):
+        self.clear_screen()
+        print('-----Select fighter to delete------')
+    
+
+    def show_delete_confirmation(self):
+        print('fighter successfully deleted!')
+        print()
 
 
     def show_fighter_data(self,fighter_data):
@@ -22,7 +32,7 @@ class FighterView(BaseView):
             option = int(input("Enter the number of the fighter:"))
             if option > 0 and option <=max_value:
                 return option
-    
+
 
     def edit_name_fighter(self,old_name):
         print('----- Edit Fighter name -----')
@@ -48,8 +58,9 @@ class FighterView(BaseView):
         print('4 - Buy New Fighter')
         print('5 - Improve some fighter\'s skill (5 coins)')
         print('6 - Complete some fighter\'s life (10 coins)')
+        print('7 - Return to Home Screen')
 
         while True:
             option = int(input("Enter your choice:"))
-            if option in [1,2,3,4,5,6]:
+            if option in [1,2,3,4,5,6,7]:
                 return option

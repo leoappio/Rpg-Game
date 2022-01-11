@@ -4,10 +4,14 @@ from Model.player import Player
 class GameController():
     def __init__(self):
         self.__home_screen = HomeView()
-        self.__fighter_controller = FighterController()
+        self.__fighter_controller = FighterController(self)
         #TODO
         self.__player = Player([])
     
+    @property
+    def player(self):
+        return self.__player
+
     def start_game(self):
         self.open_screen()
     
@@ -15,7 +19,7 @@ class GameController():
         ...
     
     def fighters_menu(self):
-        self.__fighter_controller.fighter_menu(self.__player)
+        self.__fighter_controller.fighter_menu()
     
     def historic(self):
         ...
