@@ -29,11 +29,28 @@ class FighterView(BaseView):
         self.clear_screen()
         print('-----Select fighter to improve skill------')
     
+
+    def show_buy_fighter_header(self):
+        self.clear_screen()
+        print('--------Buy New Fighter---------')
+        print('->fighters skills are generated randomly')
+        print('(10-40) - 60% chance')
+        print('(41-50) - 25% chance')
+        print('(51-80) - 10% chance')
+        print('(81-100) - 5% chance')
+    
     
     def show_delete_confirmation(self):
         self.show_success_message('fighter successfully deleted!')
         print()
     
+
+    def show_buy_fighter_confirmation(self):
+        print()
+        self.show_success_message('fighter successfully generated!')
+        print()
+    
+
     def show_complete_life_confirmation(self):
         self.show_success_message('life successfully completed!')
         print()
@@ -58,6 +75,16 @@ class FighterView(BaseView):
         print(fighter_data['attack_name'],'-',fighter_data['attack_power'], 'power')
         print(fighter_data['defense_name'],'-',fighter_data['defense_power'], 'power')
         print('Life',fighter_data['life'],'/100')
+    
+
+    def read_data_new_fighter(self):
+        fighter_name = input('->enter the name for your fighter:')
+        attack_name = input('->enter the name for your fighter\'s attack:')
+        defense_name = input('->enter the name for your fighter\'s defense:')
+
+        return {'fighter_name':fighter_name,
+                'attack_name':attack_name,
+                'defense_name':defense_name}
 
 
     def select_fighter(self, max_value):

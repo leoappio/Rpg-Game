@@ -61,7 +61,38 @@ class FighterController():
 
 
     def buy_new_fighter(self):
-        ...
+        if self.__game_controller.player.coin_balance >= 20:
+            self.__fighter_view.show_buy_fighter_header()
+
+            fighter_data = self.__fighter_view.read_data_new_fighter()
+            fighter_skills = self.random_fighter_skills()
+
+            fighter = Fighter(fighter_data['fighter_name'],
+                              fighter_data['attack_name'],
+                              fighter_skills['attack'],
+                              fighter_data['defense_name'],
+                              fighter_skills['defense'],
+                              100)
+            
+            self.__game_controller.player.add_fighter(fighter)
+            self.__game_controller.player.remove_coins(20)
+            self.__fighter_view.show_buy_fighter_confirmation()
+
+            fighter_data = {'fighter_number': 'Stats',
+                            'fighter_name':fighter.name,
+                            'attack_name':fighter.attack.name,
+                            'attack_power':fighter.attack.power,
+                            'defense_name':fighter.defense.name,
+                            'defense_power':fighter.defense.power,
+                            'life':fighter.life}
+
+            self.__fighter_view.show_fighter_data(fighter_data)
+            self.__fighter_view.return_to_menu()
+            self.fighter_menu()
+        else:
+            self.__fighter_view.log_insuficient_balance_error()
+            self.__fighter_view.return_to_menu()
+            self.fighter_menu()
 
 
     def improve_fighter_skill(self):
@@ -158,5 +189,3 @@ class FighterController():
         chosen_function = options_list[chosen_option]
         chosen_function()
         
-
-    
