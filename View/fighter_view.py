@@ -107,6 +107,7 @@ class FighterView(BaseView):
         print('press enter to return')
         input()
     
+    
     def show_improve_skill_menu(self):
         print('[1] - Improve attack in 3 points = 5 coins')
         print('[2] - Improve defense in 3 points = 5 coins')

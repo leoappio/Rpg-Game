@@ -3,8 +3,7 @@ class Player():
         self.__fighters = initial_fighters
         self.__coin_balance = 10
         self.__current_battle = 1
-
-    
+ 
 
     @property
     def coin_balance(self):
