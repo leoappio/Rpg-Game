@@ -8,8 +8,8 @@ class FighterController():
         self.__game_controller = game_controller
 
 
-    def show_all_fighters_from_player(self):
-        for counter,fighter in enumerate(self.__game_controller.player.fighters):
+    def show_all_fighters_from_player(self, fighters_list):
+        for counter,fighter in enumerate(fighters_list):
             fighter_data = {'fighter_number': counter+1,
                             'fighter_name':fighter.name,
                             'attack_name':fighter.attack.name,
@@ -22,13 +22,29 @@ class FighterController():
 
     def see_all_fighters(self):
         self.__fighter_view.show_see_all_fighters_header()
-        self.show_all_fighters_from_player()
+        self.show_all_fighters_from_player(self.__game_controller.player.fighters)
         self.__fighter_view.return_to_menu()
         self.fighter_menu()
+    
+    
+    def select_fighters_to_battle(self):
+        possible_fighters = self.__game_controller.player.fighters.copy()
+        selected_fighters = []
+
+        for number_of_fighters_selected in range(3):
+            self.__fighter_view.show_select_fighters_for_battle_header(number_of_fighters_selected)
+            self.show_all_fighters_from_player(possible_fighters)
+            number_selected = self.__fighter_view.select_fighter(len(possible_fighters))
+            fighter_selected = possible_fighters[number_selected-1]
+
+            selected_fighters.append(fighter_selected)
+            possible_fighters.remove(fighter_selected)
+        
+        return selected_fighters
 
 
     def select_fighter(self):
-        self.show_all_fighters_from_player()
+        self.show_all_fighters_from_player(self.__game_controller.player.fighters)
         number_selected = self.__fighter_view.select_fighter(len(self.__game_controller.player.fighters))
         fighter_selected = self.__game_controller.player.fighters[number_selected-1]
 

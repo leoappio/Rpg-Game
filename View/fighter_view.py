@@ -14,6 +14,13 @@ class FighterView(BaseView):
         self.clear_screen()
         print('-----Select fighter to delete------')
     
+        
+    def show_select_fighters_for_battle_header(self,selected_fighters):
+        self.clear_screen()
+        print('-----Select fighters to battle------')
+        print('|Fighters selected: '+str(selected_fighters)+'/3 |')
+        print()
+    
 
     def show_edit_fighter_header(self):
         self.clear_screen()
@@ -107,7 +114,7 @@ class FighterView(BaseView):
         print('press enter to return')
         input()
     
-    
+
     def show_improve_skill_menu(self):
         print('[1] - Improve attack in 3 points = 5 coins')
         print('[2] - Improve defense in 3 points = 5 coins')
