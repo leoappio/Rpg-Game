@@ -8,9 +8,27 @@ class HomeView(BaseView):
         print('|',coins_quantity,'Coins | Current Battle:',current_battle,'|')
         print('1- New Battle')
         print('2- Fighters Menu')
-        print('3- Historic')
+        print('3- History')
 
         while True:
             option = int(input("Enter your choice:"))
             if option in [1,2,3]:
                 return option
+
+    def defeat(self):
+        print('You Lost!')
+
+    def victory(self):
+        input('You Won! Press enter to continue')
+
+    def show_history(self, data):
+        self.clear_screen()
+        print('-----------Battles fought----------')
+        for text in data:
+            print(text)
+        input('Press enter to continue')
+
+    def ending(self):
+        self.clear_screen()
+        input('Congratulations, you finished the game!')
+        input('Press enter to continue')

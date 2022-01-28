@@ -1,4 +1,5 @@
 from Model.defense import Defense
+import random
 
 class DefenseController():
     def __init__(self):
