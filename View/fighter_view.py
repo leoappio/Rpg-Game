@@ -130,7 +130,7 @@ class FighterView(BaseView):
         print('1 - See all my fighters')
         print('2 - Edit fighter')
         print('3 - Delete fighter')
-        print('4 - Buy New Fighter')
+        print('4 - Buy New Fighter (20 coins)')
         print('5 - Improve some fighter\'s skill (5 coins)')
         print('6 - Complete some fighter\'s life (10 coins)')
         print('7 - Return to Home Screen')
