@@ -27,10 +27,10 @@ class GameController():
         boss = self.__boss_controller.generate_new_boss(self.__player.current_battle)
         outcome, battle = self.__battle_controller.start_new_battle(boss, self.__player.current_battle)
         if outcome:
-            self.__history.append('---Against %s---' % battle.boss.name)
+            self.append_to_history('---Against %s---' % battle.boss.name)
             for data in battle.combats:
                 text = '%s dealt %d damage to %s' % (data.attacker, data.result, data.defender)
-                self.__history.append(text)
+                self.append_to_history(text)
             self.player.add_coins(self.__player.current_battle*5)
             if self.__player.current_battle != 10:
                 self.__player.add_one_to_current_battle()
@@ -59,3 +59,5 @@ class GameController():
         self.__player = Player(self.__fighter_controller.generate_starting_fighters())
         self.__home_screen.defeat()
 
+    def append_to_history(self, text):
+        self.__history.append(text)

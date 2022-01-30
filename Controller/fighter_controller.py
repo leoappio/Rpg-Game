@@ -55,7 +55,7 @@ class FighterController():
         self.__fighter_view.show_edit_fighter_header()
         fighter = self.select_fighter()
         new_name = self.__fighter_view.edit_name_fighter(fighter.name)
-
+        self.__game_controller.append_to_history(fighter.name + ' has changed their name to ' + new_name + '.')
         fighter.name = new_name
         self.__fighter_view.return_to_menu()
         self.fighter_menu()
@@ -65,6 +65,7 @@ class FighterController():
         if len(self.__game_controller.player.fighters) >3:
             self.__fighter_view.show_delete_fighter_header()
             fighter = self.select_fighter()
+            self.__game_controller.append_to_history(fighter.name + ' was deleted.')
             self.__game_controller.player.fighters.remove(fighter)
             
             self.__fighter_view.show_delete_confirmation()
@@ -102,6 +103,7 @@ class FighterController():
                             'defense_power':fighter.defense.power,
                             'life':fighter.life}
 
+            self.__game_controller.append_to_history(fighter.name + ' Bought.')
             self.__fighter_view.show_fighter_data(fighter_data)
             self.__fighter_view.return_to_menu()
             self.fighter_menu()
@@ -117,12 +119,16 @@ class FighterController():
             fighter = self.select_fighter()
             option = self.__fighter_view.show_improve_skill_menu()
 
+            self.__game_controller.append_to_history('5 coins spent.')
             if option == 1:
                 fighter.attack.increase_power()
                 self.__fighter_view.show_skill_improved_confirmation('attack')
+                text = fighter.name + '\'s ' + fighter.attack.name + ' increased by 3 points.'
             else:
                 fighter.defense.increase_power()
                 self.__fighter_view.show_skill_improved_confirmation('defense')
+                text = fighter.name + '\'s ' + fighter.defense.name + ' increased by 3 points.'
+            self.__game_controller.append_to_history(text)
             
             self.__game_controller.player.remove_coins(5)
             
@@ -151,6 +157,8 @@ class FighterController():
             fighter.complete_life()
             self.__game_controller.player.remove_coins(10)
             self.__fighter_view.show_complete_life_confirmation()
+            self.__game_controller.append_to_history('10 coins spent.')
+            self.__game_controller.append_to_history(fighter.name + '\'s life completely recovered!')
             self.__fighter_view.return_to_menu()
             self.fighter_menu()
         else:
