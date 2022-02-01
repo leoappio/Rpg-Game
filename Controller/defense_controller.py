@@ -6,8 +6,8 @@ class DefenseController():
         ...
     
     def generate_new_random_defense(self,battle_number):
-        inferior_limit = (battle_number * 2) + 5
-        upper_limit = (battle_number * 3) + 10
+        inferior_limit = (battle_number * 10) + 5
+        upper_limit = (battle_number * 12) + 10
         random_defense = random.randint(inferior_limit, upper_limit)
 
         return Defense('Boss Defense', random_defense)
