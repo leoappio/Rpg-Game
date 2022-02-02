@@ -1,4 +1,5 @@
 from View.base_view import BaseView
+from Model.Exceptions.InvalidChoiceException import InvalidChoiceException
 
 class HomeView(BaseView):
     
@@ -11,9 +12,14 @@ class HomeView(BaseView):
         print('3- History')
 
         while True:
-            option = int(input("Enter your choice:"))
-            if option in [1,2,3]:
-                return option
+            try:
+                option = input("Enter your choice:")
+                if option in ['1','2','3']:
+                    return int(option)
+                else:
+                    raise InvalidChoiceException()
+            except InvalidChoiceException as e:
+                print(e)
 
     def defeat(self):
         print('You Lost!')

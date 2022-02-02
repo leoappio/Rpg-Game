@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from Model.Exceptions.InvalidNameException import InvalidNameException
 class Character(ABC):    
     @property
     @abstractmethod
@@ -8,7 +9,10 @@ class Character(ABC):
     @name.setter
     @abstractmethod
     def name(self,name):
-        self.__name = name
+        if len(name) >= 3:
+            self.__name = name
+        else:
+            raise InvalidNameException()
     
     @property
     @abstractmethod

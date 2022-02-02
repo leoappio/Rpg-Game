@@ -1,4 +1,6 @@
 from View.base_view import BaseView
+from Model.Exceptions.InvalidChoiceException import InvalidChoiceException
+from Model.Exceptions.InvalidNameException import InvalidNameException
 
 class FighterView(BaseView):
     def __init__(self):
@@ -85,9 +87,37 @@ class FighterView(BaseView):
     
 
     def read_data_new_fighter(self):
-        fighter_name = input('->enter the name for your fighter:')
-        attack_name = input('->enter the name for your fighter\'s attack:')
-        defense_name = input('->enter the name for your fighter\'s defense:')
+        while True:
+            fighter_name = input('->enter the name for your fighter:')
+            try:
+                if len(fighter_name) < 3:
+                    raise InvalidNameException()
+                else:
+                    break
+            except InvalidNameException as e:
+                print(e)
+        
+
+        while True:
+            attack_name = input('->enter the name for your fighter\'s attack:')
+            try:
+                if len(attack_name) < 3:
+                    raise InvalidNameException()
+                else:
+                    break
+            except InvalidNameException as e:
+                print(e)
+
+        while True:
+            defense_name = input('->enter the name for your fighter\'s defense:')
+            try:
+                if len(defense_name) < 3:
+                    raise InvalidNameException()
+                else:
+                    break
+            except InvalidNameException as e:
+                print(e)
+
 
         return {'fighter_name':fighter_name,
                 'attack_name':attack_name,
@@ -96,18 +126,32 @@ class FighterView(BaseView):
 
     def select_fighter(self, max_value):
         while True:
-            option = int(input("Enter the number of the fighter:"))
-            if option > 0 and option <=max_value:
-                return option
+            option = input("Enter the number of the fighter:")
+            try:
+                if int(option) > 0 and int(option) <= max_value:
+                    return int(option)
+                else:
+                    raise InvalidChoiceException()
+            except Exception as e:
+                print('Invalid Choice!')
+                
 
 
     def edit_name_fighter(self,old_name):
         print('----- Edit Fighter name -----')
         print('Current name:',old_name)
-        new_name = input('New Name: ')
-        
-        self.show_success_message('name changed successfully')
-        return new_name
+
+        while True:
+            new_name = input('New Name: ')
+            try:
+                if len(new_name) < 3:
+                    raise InvalidNameException()
+                else:
+                    self.show_success_message('name changed successfully')
+                    return new_name
+            except InvalidNameException as e:
+                print(e)
+    
     
 
     def return_to_menu(self):
@@ -119,9 +163,14 @@ class FighterView(BaseView):
         print('[1] - Improve attack in 3 points = 5 coins')
         print('[2] - Improve defense in 3 points = 5 coins')
         while True:
-            option = int(input("Select 1 or 2:"))
-            if option in [1,2]:
-                return option
+            option = input("Select 1 or 2:")
+            try:
+                if option in ['1','2']:
+                    return int(option)
+                else:
+                    raise InvalidChoiceException()
+            except InvalidChoiceException as e:
+                print(e)
 
     
     def show_fighter_menu(self):
@@ -136,6 +185,11 @@ class FighterView(BaseView):
         print('7 - Return to Home Screen')
 
         while True:
-            option = int(input("Enter your choice:"))
-            if option in [1,2,3,4,5,6,7]:
-                return option
+            try:
+                option = input("Enter your choice:")
+                if option in ['1','2','3','4','5','6','7']:
+                    return int(option)
+                else:
+                    raise InvalidChoiceException()
+            except InvalidChoiceException as e:
+                print(e)
