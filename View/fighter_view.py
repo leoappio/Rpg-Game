@@ -10,9 +10,9 @@ class FighterView(BaseView):
         print('-----See all fighters------')
     
     
-    def show_delete_fighter_header(self):
+    def show_sell_fighter_header(self):
         self.clear_screen()
-        print('-----Select fighter to delete------')
+        print('-----Select fighter to sell------')
     
         
     def show_select_fighters_for_battle_header(self,selected_fighters):
@@ -47,8 +47,8 @@ class FighterView(BaseView):
         print('(81-100) - 5% chance')
     
     
-    def show_delete_confirmation(self):
-        self.show_success_message('fighter successfully deleted!')
+    def show_sold_confirmation(self):
+        self.show_success_message('fighter successfully sold!')
         print()
     
 
@@ -69,7 +69,7 @@ class FighterView(BaseView):
         print()
     
 
-    def log_cant_delete_fighter_error(self):
+    def log_cant_sell_fighter_error(self):
         self.show_error('you must have at least 3 fighters on your account!')
     
 
@@ -129,10 +129,10 @@ class FighterView(BaseView):
         print('-------------- Fighters Menu ---------------')
         print('1 - See all my fighters')
         print('2 - Edit fighter')
-        print('3 - Delete fighter')
-        print('4 - Buy New Fighter (20 coins)')
-        print('5 - Improve some fighter\'s skill (5 coins)')
-        print('6 - Complete some fighter\'s life (10 coins)')
+        print('3 - Sell fighter(+15 coins)')
+        print('4 - Buy New Fighter (-20 coins)')
+        print('5 - Improve some fighter\'s skill (-5 coins)')
+        print('6 - Complete some fighter\'s life (-10 coins)')
         print('7 - Return to Home Screen')
 
         while True:
