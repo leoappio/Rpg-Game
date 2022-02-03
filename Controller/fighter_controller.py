@@ -61,18 +61,19 @@ class FighterController():
         self.fighter_menu()
     
 
-    def delete_fighter(self):
+    def sell_fighter(self):
         if len(self.__game_controller.player.fighters) >3:
-            self.__fighter_view.show_delete_fighter_header()
+            self.__fighter_view.show_sell_fighter_header()
             fighter = self.select_fighter()
-            self.__game_controller.append_to_history(fighter.name + ' was deleted.')
+            self.__game_controller.append_to_history(fighter.name + ' was sold.')
             self.__game_controller.player.fighters.remove(fighter)
             
-            self.__fighter_view.show_delete_confirmation()
+            self.__fighter_view.show_sold_confirmation()
+            self.__game_controller.player.add_coins(15)
             self.__fighter_view.return_to_menu()
             self.fighter_menu()
         else:
-            self.__fighter_view.log_cant_delete_fighter_error()
+            self.__fighter_view.log_cant_sell_fighter_error()
             self.__fighter_view.return_to_menu()
             self.fighter_menu()
 
@@ -103,7 +104,7 @@ class FighterController():
                             'defense_power':fighter.defense.power,
                             'life':fighter.life}
 
-            self.__game_controller.append_to_history(fighter.name + ' Bought.')
+            self.__game_controller.append_to_history(fighter.name + ' was bought.')
             self.__fighter_view.show_fighter_data(fighter_data)
             self.__fighter_view.return_to_menu()
             self.fighter_menu()
@@ -206,7 +207,7 @@ class FighterController():
 
 
     def fighter_menu(self):
-        options_list = {1: self.see_all_fighters, 2: self.edit_fighter, 3: self.delete_fighter,
+        options_list = {1: self.see_all_fighters, 2: self.edit_fighter, 3: self.sell_fighter,
                         4: self.buy_new_fighter, 5: self.improve_fighter_skill, 6: self.complete_fighter_life,
                         7: self.return_to_main_menu}
         chosen_option = self.__fighter_view.show_fighter_menu()
