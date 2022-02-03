@@ -29,7 +29,6 @@ class HomeView(BaseView):
 
     def show_history(self, data):
         self.clear_screen()
-        print('-----------Battles fought----------')
         for text in data:
             print(text)
         input('Press enter to continue')
@@ -42,3 +41,19 @@ class HomeView(BaseView):
     def select_fighters_for_battle(self):
         self.clear_screen()
         print('---- Please, select 3 fighters for this battle. ----')
+
+    def history_filter(self, fighters, max_value):
+        self.clear_screen()
+        print('---- Choose which fighter to show their history ----')
+        print('1- Everybody')
+        for fighter in fighters:
+            print(fighter[0] + '- ' + fighter[1])
+        while True:
+            try:
+                value = input('Choose one option:')
+                if int(value) > 1 or int(value) <= max_value:
+                    return int(value)
+                else:
+                    raise InvalidChoiceException()
+            except Exception as e:
+                print('Invalid Choice!')

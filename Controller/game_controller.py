@@ -49,7 +49,21 @@ class GameController():
         self.__fighter_controller.fighter_menu()
     
     def history(self):
-        self.__home_screen.show_history(self.__history)
+        fighters = []
+        number = 1
+        for fighter in self.__player.fighters:
+            number += 1
+            fighters.append([str(number), fighter.name])
+        filter = self.__home_screen.history_filter(fighters, number)
+        if filter == 1:
+            history = self.__history
+        else:
+            history = []
+            filter = self.__player.fighters[filter-2].name
+            for event in self.__history:
+                if filter in event:
+                    history.append(event)
+        self.__home_screen.show_history(history)
     
     def open_screen(self):
         options_list = {1: self.new_battle, 2: self.fighters_menu, 3: self.history}
