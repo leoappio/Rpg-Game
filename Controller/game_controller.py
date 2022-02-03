@@ -24,10 +24,14 @@ class GameController():
             self.open_screen()
     
     def new_battle(self):
+        if len(self.__player.fighters) > 3:
+            fighters = self.select_fighters_for_battle()
+        else:
+            fighters = self.__player.fighters
         boss = self.__boss_controller.generate_new_boss(self.__player.current_battle)
-        outcome, battle = self.__battle_controller.start_new_battle(boss, self.__player.current_battle)
+        outcome, battle = self.__battle_controller.start_new_battle(boss, self.__player.current_battle, fighters)
         if outcome:
-            self.append_to_history('---Against %s---' % battle.boss.name)
+            self.append_to_history('---%s %s and %s vs %s---' % (fighters[0].name, fighters[1].name, fighters[2].name, battle.boss.name))
             for data in battle.combats:
                 text = '%s dealt %d damage to %s' % (data.attacker, data.result, data.defender)
                 self.append_to_history(text)
@@ -61,3 +65,13 @@ class GameController():
 
     def append_to_history(self, text):
         self.__history.append(text)
+
+    def select_fighters_for_battle(self):
+        self.__home_screen.select_fighters_for_battle()
+        fighters = []
+        while len(fighters) < 3:
+            fighter = self.__fighter_controller.select_fighter()
+            if fighter in fighters:
+                continue
+            fighters.append(fighter)
+        return fighters

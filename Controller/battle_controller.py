@@ -11,16 +11,16 @@ class BattleController():
         self.__combat_controller = CombatController()
         self.__battle = False
 
-    def start_new_battle(self, boss, battle_number):
-        self.__battle = Battle(boss, self.__game_controller.player, self.__game_controller.player.fighters)
+    def start_new_battle(self, boss, battle_number, fighters):
+        self.__battle = Battle(boss, self.__game_controller.player, fighters)
         while True:
             self.show_boss_data(boss, battle_number)
-            fighter = self.select_fighter_to_attack()
-            result = self.add_combat(self.__game_controller.player.fighters[fighter-1], self.__battle.boss)
+            fighter = self.select_fighter_to_attack(fighters)
+            result = self.add_combat(fighters[fighter-1], self.__battle.boss)
             if result == "player":
                 return True, self.__battle
             fighter = random.randrange(0, 3)
-            result = self.add_combat(self.__battle.boss, self.__game_controller.player.fighters[fighter])
+            result = self.add_combat(self.__battle.boss, fighters[fighter])
             if result == "boss":
                 return False
             self.__battle_view.next_round()
@@ -36,9 +36,10 @@ class BattleController():
             'defense_power': boss.defense.power
         }
         self.__battle_view.show_boss_data(boss_data)
-    def select_fighter_to_attack(self):
+
+    def select_fighter_to_attack(self, fighters):
         self.__battle_view.select_fighter_to_attack()
-        self.show_all_fighters_from_player()
+        self.show_all_fighters_from_player(fighters)
         fighter = self.__battle_view.select_fighter()
         return fighter
 
@@ -54,8 +55,8 @@ class BattleController():
         else:
             return ""
 
-    def show_all_fighters_from_player(self):
-        for counter,fighter in enumerate(self.__game_controller.player.fighters):
+    def show_all_fighters_from_player(self, fighters):
+        for counter,fighter in enumerate(fighters):
             fighter_data = {'fighter_number': counter+1,
                             'fighter_name':fighter.name,
                             'attack_name':fighter.attack.name,

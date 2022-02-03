@@ -32,3 +32,7 @@ class HomeView(BaseView):
         self.clear_screen()
         input('Congratulations, you finished the game!')
         input('Press enter to continue')
+
+    def select_fighters_for_battle(self):
+        self.clear_screen()
+        print('---- Please, select 3 fighters for this battle. ----')
