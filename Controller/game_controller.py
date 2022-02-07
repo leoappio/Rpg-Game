@@ -12,7 +12,6 @@ class GameController():
         self.__boss_controller = BossController()
         self.__battle_controller = BattleController(self)
         self.__history = []
-        #TODO
         self.__player = Player(self.__fighter_controller.generate_starting_fighters())
     
     @property
