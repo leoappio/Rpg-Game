@@ -35,6 +35,7 @@ class Boss(Character):
     def life(self):
         return self.__life
 
+
     def decrease_life(self, value):
         self.__life = self.__life - value
         
