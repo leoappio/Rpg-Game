@@ -1,3 +1,6 @@
+from Model.Exceptions.InvalidParameterException import InvalidParameterException
+from Model.fighter import Fighter
+
 class Player():
     def __init__(self,initial_fighters):
         self.__fighters = initial_fighters
@@ -11,11 +14,17 @@ class Player():
     
 
     def add_coins(self,quantity):
-        self.__coin_balance =  self.__coin_balance + quantity
+        if quantity > 0:
+            self.__coin_balance =  self.__coin_balance + quantity
+        else:
+            raise InvalidParameterException('quantity','add coins','Player')
 
 
     def remove_coins(self,quantity):
-        self.__coin_balance =  self.__coin_balance - quantity
+        if quantity > 0:
+            self.__coin_balance =  self.__coin_balance - quantity
+        else:
+            raise InvalidParameterException('quantity','remove coins','Player')
     
 
     @property
@@ -33,10 +42,16 @@ class Player():
     
     
     def add_fighter(self, fighter):
-        self.__fighters.append(fighter)
+        if isinstance(fighter, Fighter):
+            self.__fighters.append(fighter)
+        else:
+            raise InvalidParameterException('fighter','add fighter','Player')
     
-    
+
     def remove_fighter(self, fighter):
-        self.__fighters.remove(fighter)
+        if isinstance(fighter, Fighter):
+            self.__fighters.remove(fighter)
+        else:
+            raise InvalidParameterException('fighter','remove fighter','Player')
 
     
