@@ -7,5 +7,5 @@ class Fighter(Character):
 
 
     def complete_life(self):
-        self.__life = 100
+        self.life = 100
 

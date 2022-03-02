@@ -6,8 +6,14 @@ class FighterController():
     def __init__(self, game_controller):
         self.__fighter_view = FighterView()
         self.__game_controller = game_controller
+        self.__fighters = []
 
+    
+    @property
+    def fighters(self):
+        return self.__fighters
 
+    
     def show_all_fighters_from_player(self, fighters_list):
         for counter,fighter in enumerate(fighters_list):
             fighter_data = {'fighter_number': counter+1,
@@ -22,13 +28,13 @@ class FighterController():
 
     def see_all_fighters(self):
         self.__fighter_view.show_see_all_fighters_header()
-        self.show_all_fighters_from_player(self.__game_controller.player.fighters)
+        self.show_all_fighters_from_player(self.__fighters)
         self.__fighter_view.return_to_menu()
         self.fighter_menu()
     
     
     def select_fighters_to_battle(self):
-        possible_fighters = self.__game_controller.player.fighters.copy()
+        possible_fighters = self.__fighters.copy()
         selected_fighters = []
 
         for number_of_fighters_selected in range(3):
@@ -44,9 +50,9 @@ class FighterController():
 
 
     def select_fighter(self):
-        self.show_all_fighters_from_player(self.__game_controller.player.fighters)
-        number_selected = self.__fighter_view.select_fighter(len(self.__game_controller.player.fighters))
-        fighter_selected = self.__game_controller.player.fighters[number_selected-1]
+        self.show_all_fighters_from_player(self.__fighters)
+        number_selected = self.__fighter_view.select_fighter(len(self.__fighters))
+        fighter_selected = self.__fighters[number_selected-1]
 
         return fighter_selected
     
@@ -62,11 +68,13 @@ class FighterController():
     
 
     def sell_fighter(self):
-        if len(self.__game_controller.player.fighters) >3:
+        if len(self.__fighters) >3:
             self.__fighter_view.show_sell_fighter_header()
             fighter = self.select_fighter()
             self.__game_controller.append_to_history(fighter.name + ' was sold.')
             self.__game_controller.player.fighters.remove(fighter)
+
+            self.__fighters.remove(fighter)
             
             self.__fighter_view.show_sold_confirmation()
             self.__game_controller.player.add_coins(15)
@@ -95,6 +103,8 @@ class FighterController():
             self.__game_controller.player.add_fighter(fighter)
             self.__game_controller.player.remove_coins(20)
             self.__fighter_view.show_buy_fighter_confirmation()
+
+            self.__fighters.append(fighter)
 
             fighter_data = {'fighter_number': 'Stats',
                             'fighter_name':fighter.name,
@@ -181,6 +191,8 @@ class FighterController():
             defense_power = random_skills['defense']
             fighter = Fighter('Fighter '+str(num), 'Attack', attack_power, 'Defense', defense_power, 100)
             generated_fighters.append(fighter)
+
+            self.__fighters = generated_fighters.copy()
         
         return generated_fighters
             
