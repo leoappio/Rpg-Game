@@ -21,3 +21,7 @@ class BossController():
         self.__bosses.append(generated_boss)
         return generated_boss
     
+
+    @property
+    def bosses(self):
+        return self.__bosses
