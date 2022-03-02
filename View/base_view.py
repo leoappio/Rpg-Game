@@ -1,6 +1,7 @@
 import os
+from abc import ABC
 
-class BaseView():
+class BaseView(ABC):
     def clear_screen(self):
         os.system('cls' if os.name == 'nt' else 'clear')
     

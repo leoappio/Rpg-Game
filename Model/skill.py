@@ -21,3 +21,7 @@ class Skill(ABC):
     @power.setter
     def power(self,power):
         self.__power = power
+
+
+    def increase_power(self):
+        self.__power = self.__power + 3

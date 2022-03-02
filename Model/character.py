@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from Model.Exceptions.InvalidNameException import InvalidNameException
+from Model.Exceptions.InvalidParameterException import InvalidParameterException
 from Model.attack import Attack
 from Model.defense import Defense
 
@@ -28,7 +29,10 @@ class Character(ABC):
     
     @attack.setter
     def attack(self,attack):
-        self.__attack = attack
+        if isinstance(attack, Attack):
+            self.__attack = attack
+        else:
+            raise InvalidParameterException('attack','attack setter','Character')
     
     @property
     def defense(self):
@@ -36,10 +40,17 @@ class Character(ABC):
     
     @defense.setter
     def defense(self,defense):
-        self.__defense = defense
+        if isinstance(defense,Defense):
+            self.__defense = defense
+        else:
+            raise InvalidParameterException('defense','defense setter','Character')
 
     @property
     def life(self):
         return self.__life
     
-    
+    def decrease_life(self, value):
+        self.__life = self.__life - value
+        
+        if self.__life < 0:
+            self.__life = 0   
