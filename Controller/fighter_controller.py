@@ -99,7 +99,7 @@ class FighterController():
             self.__game_controller.player.add_coins(15)
             self.fighter_menu()
         else:
-            self.__fighter_view.log_cant_sell_fighter_error()
+            self.__fighter_view.show_message('you must have at least 3 fighters on your account!')
             self.fighter_menu()
 
 
@@ -133,7 +133,7 @@ class FighterController():
             self.__fighter_view.show_fighter_data(fighter_data)
             self.fighter_menu()
         else:
-            self.__fighter_view.log_insuficient_balance_error()
+            self.__fighter_view.show_message('you dont have enough coins!')
             self.fighter_menu()
 
 
@@ -164,7 +164,7 @@ class FighterController():
             self.__fighter_view.show_fighter_data(fighter_data)
             self.fighter_menu()
         else:
-            self.__fighter_view.log_insuficient_balance_error()
+            self.__fighter_view.show_message('you dont have enough coins!')
             self.fighter_menu()
 
 
@@ -189,7 +189,7 @@ class FighterController():
             self.__game_controller.append_to_history(fighter.name + '\'s life completely recovered!')
             self.fighter_menu()
         else:
-            self.__fighter_view.log_insuficient_balance_error()
+            self.__fighter_view.show_message('you dont have enough coins!')
             self.fighter_menu()
             
 

@@ -19,69 +19,14 @@ class FighterView(BaseView):
 
 
         sg.Popup('------- All Fighters --------',string_all_fighters_data)
-    
-
-    def show_sell_fighter_header(self):
-        self.clear_screen()
-        print('-----Select fighter to sell------')
-    
+        
         
     def show_select_fighters_for_battle_header(self,selected_fighters):
         self.clear_screen()
         print('-----Select fighters to battle------')
         print('|Fighters selected: '+str(selected_fighters)+'/3 |')
         print()
-    
-
-    def show_complete_life_header(self):
-        self.clear_screen()
-        print('-----Select fighter to complete life------')
-    
-
-    def show_improve_skill_header(self):
-        self.clear_screen()
-        print('-----Select fighter to improve skill------')
-    
-
-    def show_buy_fighter_header(self):
-        self.clear_screen()
-        print('--------Buy New Fighter---------')
-        print('->fighters skills are generated randomly')
-        print('(10-40) - 60% chance')
-        print('(41-50) - 25% chance')
-        print('(51-80) - 10% chance')
-        print('(81-100) - 5% chance')
-    
-    
-    def show_sold_confirmation(self):
-        self.show_success_message('fighter successfully sold!')
-        print()
-    
-
-    def show_buy_fighter_confirmation(self):
-        print()
-        self.show_success_message('fighter successfully generated!')
-        print()
-    
-
-    def show_complete_life_confirmation(self):
-        self.show_success_message('life successfully completed!')
-        print()
-    
-
-    def show_skill_improved_confirmation(self, skill):
-        message = 'improved '+skill+'!'
-        self.show_success_message(message)
-        print()
-    
-
-    def log_cant_sell_fighter_error(self):
-        self.show_error('you must have at least 3 fighters on your account!')
-    
-
-    def log_insuficient_balance_error(self):
-        self.show_error('you dont have enough coins!')
-
+        
 
     def show_fighter_data(self,fighter):
         
@@ -126,18 +71,6 @@ class FighterView(BaseView):
                         'defense_name':defense_name}
 
 
-    def select_fighter(self, max_value):
-        while True:
-            option = input("Enter the number of the fighter:")
-            try:
-                if int(option) > 0 and int(option) <= max_value:
-                    return int(option)
-                else:
-                    raise InvalidChoiceException()
-            except Exception as e:
-                print('Invalid Choice!')
-    
-
     def screen_select_fighter(self,fighters_list):
         layout = [[sg.Text('------ Select Fighter -------',font = ("Helvetica",15))]]
         for index, fighter in enumerate(fighters_list):
@@ -176,17 +109,28 @@ class FighterView(BaseView):
     
 
     def show_improve_skill_menu(self):
-        print('[1] - Improve attack in 3 points = 5 coins')
-        print('[2] - Improve defense in 3 points = 5 coins')
-        while True:
-            option = input("Select 1 or 2:")
-            try:
-                if option in ['1','2']:
-                    return int(option)
-                else:
-                    raise InvalidChoiceException()
-            except InvalidChoiceException as e:
-                print(e)
+        layout = [
+        [sg.Text('---------- What do you want to improve? -----------',font = ("Helvetica", 25))],
+        [sg.Text('Choose your option',font = ("Helvetica", 15))],
+        [sg.Radio('Improve attack in 3 points = 5 coins','RD1',key = '1')],
+        [sg.Radio('Improve defense in 3 points = 5 coins','RD1',key = '2')],
+        [sg.Button('Confirm'), sg.Cancel('Cancel')]
+        ]
+
+        self.__window = sg.Window('RPG Game - POO 2').Layout(layout)
+
+        button, values = self.__window.Read()
+
+        if values['1']:
+            option = 1
+        elif values['2']:
+            option = 2
+        elif button in (None, 'Cancel'):
+            option = 0
+
+        self.__window.Close()
+
+        return option
 
     
     def show_fighter_menu(self):
