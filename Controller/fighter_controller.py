@@ -27,10 +27,18 @@ class FighterController():
 
 
     def see_all_fighters(self):
-        self.__fighter_view.show_see_all_fighters_header()
-        self.show_all_fighters_from_player(self.__fighters)
-        self.__fighter_view.return_to_menu()
-        self.fighter_menu()
+        fighters_data_list = []
+        for counter,fighter in enumerate(self.__fighters):
+            fighter_data = {'fighter_number': counter+1,
+                            'fighter_name':fighter.name,
+                            'attack_name':fighter.attack.name,
+                            'attack_power':fighter.attack.power,
+                            'defense_name':fighter.defense.name,
+                            'defense_power':fighter.defense.power,
+                            'life':fighter.life}
+            fighters_data_list.append(fighter_data)
+
+        self.__fighter_view.see_all_fighters(fighters_data_list)
     
     
     def select_fighters_to_battle(self):

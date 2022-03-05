@@ -8,11 +8,19 @@ class FighterView(BaseView):
         self.__window = None
     
 
-    def show_see_all_fighters_header(self):
-        self.clear_screen()
-        print('-----See all fighters------')
+    def see_all_fighters(self, fighters_data):
+        string_all_fighters_data = ''
+
+        for fighter in fighters_data:
+            string_all_fighters_data = string_all_fighters_data + str(fighter['fighter_number']) +' - ' + fighter['fighter_name'] + "\n"
+            string_all_fighters_data = string_all_fighters_data + fighter['attack_name']+'-'+str(fighter['attack_power']) + ' power \n'
+            string_all_fighters_data = string_all_fighters_data + fighter['defense_name'] + '-' + str(fighter['defense_power']) + ' power \n'
+            string_all_fighters_data = string_all_fighters_data + 'Life'+str(fighter['life'])+'/100 \n------------------------------ \n'
+
+
+        sg.Popup('------- All Fighters --------',string_all_fighters_data)
     
-    
+
     def show_sell_fighter_header(self):
         self.clear_screen()
         print('-----Select fighter to sell------')
