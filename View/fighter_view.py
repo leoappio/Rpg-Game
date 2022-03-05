@@ -1,10 +1,11 @@
 from View.base_view import BaseView
 from Model.Exceptions.InvalidChoiceException import InvalidChoiceException
 from Model.Exceptions.InvalidNameException import InvalidNameException
+import PySimpleGUI as sg
 
 class FighterView(BaseView):
     def __init__(self):
-        ...
+        self.__window = None
     
 
     def show_see_all_fighters_header(self):
@@ -174,22 +175,43 @@ class FighterView(BaseView):
 
     
     def show_fighter_menu(self):
-        self.clear_screen()
-        print('-------------- Fighters Menu ---------------')
-        print('1 - See all my fighters')
-        print('2 - Edit fighter')
-        print('3 - Sell fighter(+15 coins)')
-        print('4 - Buy New Fighter (-20 coins)')
-        print('5 - Improve some fighter\'s skill (-5 coins)')
-        print('6 - Complete some fighter\'s life (-10 coins)')
-        print('7 - Return to Home Screen')
+        self.show_options()
+        button, values = self.__window.Read()
 
-        while True:
-            try:
-                option = input("Enter your choice:")
-                if option in ['1','2','3','4','5','6','7']:
-                    return int(option)
-                else:
-                    raise InvalidChoiceException()
-            except InvalidChoiceException as e:
-                print(e)
+        if values['1']:
+            option = 1
+        elif values['2']:
+            option = 2
+        elif values['3']:
+            option = 3
+        elif values['4']:
+            option = 4
+        elif values['5']:
+            option = 5
+        elif values['6']:
+            option = 6
+        elif values['7'] or button in (None, 'Cancel'):
+            option = 7
+
+        self.__window.Close()
+
+        return option
+
+
+    def show_options(self):
+        sg.ChangeLookAndFeel('DarkTeal4')
+        layout = [
+        [sg.Text('-------------- Fighters Menu ---------------',font = ("Helvetica", 25))],
+        [sg.Text('Choose your option',font = ("Helvetica", 15))],
+        [sg.Radio('1 - See all my fighters','RD1',key = '1')],
+        [sg.Radio('2 - Edit fighter','RD1',key = '2')],
+        [sg.Radio('3 - Sell fighter (+15 coins)','RD1',key = '3')],
+        [sg.Radio('4 - Buy New Fighter (-20 coins)','RD1',key = '4')],
+        [sg.Radio('5 - Improve some fighter\'s skill (-5 coins)','RD1',key = '5')],
+        [sg.Radio('6 - Complete some fighter\'s life (-10 coins)','RD1',key = '6')],
+        [sg.Radio('7 - Return to Home Screen','RD1',key = '7')],
+        [sg.Button('Confirm'), sg.Cancel('Cancel')]
+        ]
+
+        self.__window = sg.Window('RPG Game - POO 2').Layout(layout)
+

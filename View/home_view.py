@@ -18,14 +18,15 @@ class HomeView(BaseView):
 
         if values['1']:
             option = 1
-        elif values['2']:
+        if values['2']:
             option = 2
-        elif values['3']:
+        if values['3']:
             option = 3
 
         if values ['0'] or button in (None,'Cancel'):
             option = 0
-
+        
+        print(option)
         self.close()
         return option
 
@@ -45,7 +46,7 @@ class HomeView(BaseView):
             [sg.Radio('Fighters Menu',"RD1" ,key = '2')],
             [sg.Radio('History',"RD1" ,key = '3')],
             [sg.Radio('Exit',"RD1" ,key = '0')],
-            [sg.Button('Confirm',sg.Cancel('Cancel'))]
+            [sg.Button('Confirm'),sg.Cancel('Cancel')]
         ]
 
         self.__window = sg.Window('RPG Game - POO 2').Layout(layout)
