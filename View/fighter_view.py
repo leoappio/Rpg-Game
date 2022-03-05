@@ -15,7 +15,7 @@ class FighterView(BaseView):
             string_all_fighters_data = string_all_fighters_data + str(fighter['fighter_number']) +' - ' + fighter['fighter_name'] + "\n"
             string_all_fighters_data = string_all_fighters_data + fighter['attack_name']+'-'+str(fighter['attack_power']) + ' power \n'
             string_all_fighters_data = string_all_fighters_data + fighter['defense_name'] + '-' + str(fighter['defense_power']) + ' power \n'
-            string_all_fighters_data = string_all_fighters_data + 'Life'+str(fighter['life'])+'/100 \n------------------------------ \n'
+            string_all_fighters_data = string_all_fighters_data + 'Life '+str(fighter['life'])+'/100 \n------------------------------ \n'
 
 
         sg.Popup('------- All Fighters --------',string_all_fighters_data)
@@ -31,11 +31,6 @@ class FighterView(BaseView):
         print('-----Select fighters to battle------')
         print('|Fighters selected: '+str(selected_fighters)+'/3 |')
         print()
-    
-
-    def show_edit_fighter_header(self):
-        self.clear_screen()
-        print('-----Select fighter to edit------')
     
 
     def show_complete_life_header(self):
@@ -88,49 +83,47 @@ class FighterView(BaseView):
         self.show_error('you dont have enough coins!')
 
 
-    def show_fighter_data(self,fighter_data):
-        print(fighter_data['fighter_number'],'-',fighter_data['fighter_name'])
-        print(fighter_data['attack_name'],'-',fighter_data['attack_power'], 'power')
-        print(fighter_data['defense_name'],'-',fighter_data['defense_power'], 'power')
-        print('Life',fighter_data['life'],'/100')
+    def show_fighter_data(self,fighter):
+        
+        string_all_fighters_data = ''
+        string_all_fighters_data = string_all_fighters_data + str(fighter['fighter_number']) +' - ' + fighter['fighter_name'] + "\n"
+        string_all_fighters_data = string_all_fighters_data + fighter['attack_name']+'-'+str(fighter['attack_power']) + ' power \n'
+        string_all_fighters_data = string_all_fighters_data + fighter['defense_name'] + '-' + str(fighter['defense_power']) + ' power \n'
+        string_all_fighters_data = string_all_fighters_data + 'Life '+str(fighter['life'])+'/100 \n------------------------------ \n'
+
+
+        sg.Popup('------- Fighter Data --------',string_all_fighters_data)
     
 
-    def read_data_new_fighter(self):
-        while True:
-            fighter_name = input('->enter the name for your fighter:')
-            try:
-                if len(fighter_name) < 3:
-                    raise InvalidNameException()
-                else:
-                    break
-            except InvalidNameException as e:
-                print(e)
-        
+    def buy_new_fighter(self):
+
+        layout = [
+                [sg.Text('------------ Buy New Fighter ------------', font = ('Helvetica',15))],
+                [sg.Text('Fighters skills are generated randomly', font = ('Helvetica',15))],
+                [sg.Text('(10-40) - 60% chance', font = ('Helvetica',10))],
+                [sg.Text('(41-50) - 25% chance', font = ('Helvetica',10))],
+                [sg.Text('(51-80) - 10% chance', font = ('Helvetica',10))],
+                [sg.Text('(81-100) - 5% chance', font = ('Helvetica',10))],
+                [sg.Text('--------------------', font = ('Helvetica',10))],
+                [sg.Text('Fighter Name:',size = (10,1)),sg.InputText('',key='fighter_name')],
+                [sg.Text('Attack Name:',size = (10,1)),sg.InputText('',key='attack_name')],
+                [sg.Text('Defense Name:',size = (10,1)),sg.InputText('',key='defense_name')],
+                [sg.Button('Confirm'), sg.Cancel('Cancel')]
+            ]
+        self.__window = sg.Window('RPG Game - POO 2').Layout(layout)
 
         while True:
-            attack_name = input('->enter the name for your fighter\'s attack:')
-            try:
-                if len(attack_name) < 3:
-                    raise InvalidNameException()
-                else:
-                    break
-            except InvalidNameException as e:
-                print(e)
+            button, values = self.__window.Read()
 
-        while True:
-            defense_name = input('->enter the name for your fighter\'s defense:')
-            try:
-                if len(defense_name) < 3:
-                    raise InvalidNameException()
-                else:
-                    break
-            except InvalidNameException as e:
-                print(e)
-
-
-        return {'fighter_name':fighter_name,
-                'attack_name':attack_name,
-                'defense_name':defense_name}
+            fighter_name = values['fighter_name']
+            attack_name = values['attack_name']
+            defense_name = values['defense_name']
+            
+            if len(fighter_name) >= 3 and len(attack_name) > 3 and len(defense_name):
+                self.__window.Close()
+                return {'fighter_name':fighter_name,
+                        'attack_name':attack_name,
+                        'defense_name':defense_name}
 
 
     def select_fighter(self, max_value):
@@ -143,29 +136,43 @@ class FighterView(BaseView):
                     raise InvalidChoiceException()
             except Exception as e:
                 print('Invalid Choice!')
-                
+    
 
+    def screen_select_fighter(self,fighters_list):
+        layout = [[sg.Text('------ Select Fighter -------',font = ("Helvetica",15))]]
+        for index, fighter in enumerate(fighters_list):
+            layout_item = [sg.Radio(fighter,"RD1", key = str(index))]
+            layout.append(layout_item)
+
+        layout.append([sg.Button('Confirm'), sg.Cancel('Cancelar')])
+
+        self.__window = sg.Window('RPG Game - POO 2').Layout(layout)
+
+        button, values = self.__window.Read()
+
+        for index in range(0,len(fighters_list)):
+            if values[str(index)]:
+                self.__window.Close()
+                return index
 
     def edit_name_fighter(self,old_name):
-        print('----- Edit Fighter name -----')
-        print('Current name:',old_name)
 
+        layout = [
+                [sg.Text('------- Edit Fighter -------', font = ('Helvetica',15))],
+                [sg.Text('Fighter Old Name:'+old_name, font = ('Helvetica', 10))],
+                [sg.Text('New Name:',size=(10,1)),sg.InputText('',key='name')],
+                [sg.Button('Confirm'), sg.Cancel('Cancel')]
+        ]
+
+        self.__window = sg.Window('RPG GAME - POO 2').Layout(layout)
+        
         while True:
-            new_name = input('New Name: ')
-            try:
-                if len(new_name) < 3:
-                    raise InvalidNameException()
-                else:
-                    self.show_success_message('name changed successfully')
-                    return new_name
-            except InvalidNameException as e:
-                print(e)
-    
-    
-
-    def return_to_menu(self):
-        print('press enter to return')
-        input()
+            button, values = self.__window.Read()
+            new_name = values['name']
+        
+            if len(new_name) >= 3:
+                self.__window.Close()
+                return new_name
     
 
     def show_improve_skill_menu(self):

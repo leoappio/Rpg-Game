@@ -39,6 +39,7 @@ class FighterController():
             fighters_data_list.append(fighter_data)
 
         self.__fighter_view.see_all_fighters(fighters_data_list)
+        self.fighter_menu()
     
     
     def select_fighters_to_battle(self):
@@ -58,20 +59,31 @@ class FighterController():
 
 
     def select_fighter(self):
-        self.show_all_fighters_from_player(self.__fighters)
-        number_selected = self.__fighter_view.select_fighter(len(self.__fighters))
-        fighter_selected = self.__fighters[number_selected-1]
+        fighters_list = []
+        for fighter in self.__fighters:
+            fighters_list.append(fighter.name+'\n'+'Attack - '+str(fighter.attack.power)+' power \n'+'Defense - '+str(fighter.defense.power)+' power \n Life '+str(fighter.life)+'/100')
+        
+        number_selected = self.__fighter_view.screen_select_fighter(fighters_list)
+        fighter_selected = self.__fighters[number_selected]
 
         return fighter_selected
     
 
     def edit_fighter(self):
-        self.__fighter_view.show_edit_fighter_header()
         fighter = self.select_fighter()
         new_name = self.__fighter_view.edit_name_fighter(fighter.name)
         self.__game_controller.append_to_history(fighter.name + ' has changed their name to ' + new_name + '.')
         fighter.name = new_name
-        self.__fighter_view.return_to_menu()
+
+        fighter_data = {'fighter_number': 'Stats',
+                            'fighter_name':fighter.name,
+                            'attack_name':fighter.attack.name,
+                            'attack_power':fighter.attack.power,
+                            'defense_name':fighter.defense.name,
+                            'defense_power':fighter.defense.power,
+                            'life':fighter.life}
+
+        self.__fighter_view.show_fighter_data(fighter_data)
         self.fighter_menu()
     
 
@@ -84,21 +96,17 @@ class FighterController():
 
             self.__fighters.remove(fighter)
             
-            self.__fighter_view.show_sold_confirmation()
             self.__game_controller.player.add_coins(15)
-            self.__fighter_view.return_to_menu()
             self.fighter_menu()
         else:
             self.__fighter_view.log_cant_sell_fighter_error()
-            self.__fighter_view.return_to_menu()
             self.fighter_menu()
 
 
     def buy_new_fighter(self):
         if self.__game_controller.player.coin_balance >= 20:
-            self.__fighter_view.show_buy_fighter_header()
 
-            fighter_data = self.__fighter_view.read_data_new_fighter()
+            fighter_data = self.__fighter_view.buy_new_fighter()
             fighter_skills = self.random_fighter_skills()
 
             fighter = Fighter(fighter_data['fighter_name'],
@@ -110,7 +118,6 @@ class FighterController():
             
             self.__game_controller.player.add_fighter(fighter)
             self.__game_controller.player.remove_coins(20)
-            self.__fighter_view.show_buy_fighter_confirmation()
 
             self.__fighters.append(fighter)
 
@@ -124,28 +131,23 @@ class FighterController():
 
             self.__game_controller.append_to_history(fighter.name + ' was bought.')
             self.__fighter_view.show_fighter_data(fighter_data)
-            self.__fighter_view.return_to_menu()
             self.fighter_menu()
         else:
             self.__fighter_view.log_insuficient_balance_error()
-            self.__fighter_view.return_to_menu()
             self.fighter_menu()
 
 
     def improve_fighter_skill(self):
         if self.__game_controller.player.coin_balance >= 5:
-            self.__fighter_view.show_improve_skill_header()
             fighter = self.select_fighter()
             option = self.__fighter_view.show_improve_skill_menu()
 
             self.__game_controller.append_to_history('5 coins spent.')
             if option == 1:
                 fighter.attack.increase_power()
-                self.__fighter_view.show_skill_improved_confirmation('attack')
                 text = fighter.name + '\'s ' + fighter.attack.name + ' increased by 3 points.'
             else:
                 fighter.defense.increase_power()
-                self.__fighter_view.show_skill_improved_confirmation('defense')
                 text = fighter.name + '\'s ' + fighter.defense.name + ' increased by 3 points.'
             self.__game_controller.append_to_history(text)
             
@@ -160,29 +162,34 @@ class FighterController():
                             'life':fighter.life}
 
             self.__fighter_view.show_fighter_data(fighter_data)
-            self.__fighter_view.return_to_menu()
             self.fighter_menu()
         else:
             self.__fighter_view.log_insuficient_balance_error()
-            self.__fighter_view.return_to_menu()
             self.fighter_menu()
 
 
 
     def complete_fighter_life(self):
         if self.__game_controller.player.coin_balance >= 10:
-            self.__fighter_view.show_edit_fighter_header()
             fighter = self.select_fighter()
             fighter.complete_life()
             self.__game_controller.player.remove_coins(10)
-            self.__fighter_view.show_complete_life_confirmation()
+
+            fighter_data = {'fighter_number': 'Stats',
+                            'fighter_name':fighter.name,
+                            'attack_name':fighter.attack.name,
+                            'attack_power':fighter.attack.power,
+                            'defense_name':fighter.defense.name,
+                            'defense_power':fighter.defense.power,
+                            'life':fighter.life}
+
+            self.__fighter_view.show_fighter_data(fighter_data)
+
             self.__game_controller.append_to_history('10 coins spent.')
             self.__game_controller.append_to_history(fighter.name + '\'s life completely recovered!')
-            self.__fighter_view.return_to_menu()
             self.fighter_menu()
         else:
             self.__fighter_view.log_insuficient_balance_error()
-            self.__fighter_view.return_to_menu()
             self.fighter_menu()
             
 
