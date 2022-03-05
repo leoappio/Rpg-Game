@@ -24,7 +24,7 @@ class GameController():
     
     def new_battle(self):
         if len(self.__player.fighters) > 3:
-            fighters = self.select_fighters_for_battle()
+            fighters = self.__fighter_controller.select_fighters_to_battle()
         else:
             fighters = self.__player.fighters
         boss = self.__boss_controller.generate_new_boss(self.__player.current_battle)
@@ -78,13 +78,3 @@ class GameController():
 
     def append_to_history(self, text):
         self.__history.append(text)
-
-    def select_fighters_for_battle(self):
-        self.__home_screen.select_fighters_for_battle()
-        fighters = []
-        while len(fighters) < 3:
-            fighter = self.__fighter_controller.select_fighter()
-            if fighter in fighters:
-                continue
-            fighters.append(fighter)
-        return fighters

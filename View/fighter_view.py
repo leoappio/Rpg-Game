@@ -21,12 +21,6 @@ class FighterView(BaseView):
         sg.Popup('------- All Fighters --------',string_all_fighters_data)
         
         
-    def show_select_fighters_for_battle_header(self,selected_fighters):
-        self.clear_screen()
-        print('-----Select fighters to battle------')
-        print('|Fighters selected: '+str(selected_fighters)+'/3 |')
-        print()
-        
 
     def show_fighter_data(self,fighter):
         
@@ -49,10 +43,10 @@ class FighterView(BaseView):
                 [sg.Text('(41-50) - 25% chance', font = ('Helvetica',10))],
                 [sg.Text('(51-80) - 10% chance', font = ('Helvetica',10))],
                 [sg.Text('(81-100) - 5% chance', font = ('Helvetica',10))],
-                [sg.Text('--------------------', font = ('Helvetica',10))],
-                [sg.Text('Fighter Name:',size = (10,1)),sg.InputText('',key='fighter_name')],
-                [sg.Text('Attack Name:',size = (10,1)),sg.InputText('',key='attack_name')],
-                [sg.Text('Defense Name:',size = (10,1)),sg.InputText('',key='defense_name')],
+                [sg.Text('------------------------', font = ('Helvetica',10))],
+                [sg.Text('Fighter Name:',size = (15,1)),sg.InputText('',key='fighter_name')],
+                [sg.Text('Attack Name:',size = (15,1)),sg.InputText('',key='attack_name')],
+                [sg.Text('Defense Name:',size = (15,1)),sg.InputText('',key='defense_name')],
                 [sg.Button('Confirm'), sg.Cancel('Cancel')]
             ]
         self.__window = sg.Window('RPG Game - POO 2').Layout(layout)

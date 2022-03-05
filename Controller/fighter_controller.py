@@ -46,31 +46,31 @@ class FighterController():
         possible_fighters = self.__fighters.copy()
         selected_fighters = []
 
-        for number_of_fighters_selected in range(3):
-            self.__fighter_view.show_select_fighters_for_battle_header(number_of_fighters_selected)
-            self.show_all_fighters_from_player(possible_fighters)
-            number_selected = self.__fighter_view.select_fighter(len(possible_fighters))
-            fighter_selected = possible_fighters[number_selected-1]
-
+        for i in range(3):
+            fighter_selected = self.select_fighter(possible_fighters)
+           
             selected_fighters.append(fighter_selected)
             possible_fighters.remove(fighter_selected)
         
         return selected_fighters
 
 
-    def select_fighter(self):
+    def select_fighter(self, fighters):
         fighters_list = []
-        for fighter in self.__fighters:
+        for fighter in fighters:
             fighters_list.append(fighter.name+'\n'+'Attack - '+str(fighter.attack.power)+' power \n'+'Defense - '+str(fighter.defense.power)+' power \n Life '+str(fighter.life)+'/100')
         
         number_selected = self.__fighter_view.screen_select_fighter(fighters_list)
-        fighter_selected = self.__fighters[number_selected]
+        fighter_selected = fighters[number_selected]
+
+        print(number_selected)
+        print(fighter_selected.name)
 
         return fighter_selected
     
 
     def edit_fighter(self):
-        fighter = self.select_fighter()
+        fighter = self.select_fighter(self.__fighters)
         new_name = self.__fighter_view.edit_name_fighter(fighter.name)
         self.__game_controller.append_to_history(fighter.name + ' has changed their name to ' + new_name + '.')
         fighter.name = new_name
@@ -89,8 +89,7 @@ class FighterController():
 
     def sell_fighter(self):
         if len(self.__fighters) >3:
-            self.__fighter_view.show_sell_fighter_header()
-            fighter = self.select_fighter()
+            fighter = self.select_fighter(self.__fighters)
             self.__game_controller.append_to_history(fighter.name + ' was sold.')
             self.__game_controller.player.fighters.remove(fighter)
 
@@ -139,7 +138,7 @@ class FighterController():
 
     def improve_fighter_skill(self):
         if self.__game_controller.player.coin_balance >= 5:
-            fighter = self.select_fighter()
+            fighter = self.select_fighter(self.__fighters)
             option = self.__fighter_view.show_improve_skill_menu()
 
             self.__game_controller.append_to_history('5 coins spent.')
@@ -171,7 +170,7 @@ class FighterController():
 
     def complete_fighter_life(self):
         if self.__game_controller.player.coin_balance >= 10:
-            fighter = self.select_fighter()
+            fighter = self.select_fighter(self.__fighters)
             fighter.complete_life()
             self.__game_controller.player.remove_coins(10)
 
