@@ -4,6 +4,7 @@ from Controller.boss_controller import BossController
 from Controller.battle_controller import BattleController
 from Model.player import Player
 from Model.battle import Battle
+from DAO.player_dao import PlayerDAO
 
 class GameController():
     def __init__(self):
@@ -12,7 +13,19 @@ class GameController():
         self.__boss_controller = BossController()
         self.__battle_controller = BattleController(self)
         self.__history = []
-        self.__player = Player(self.__fighter_controller.generate_starting_fighters())
+        self.__player_DAO = PlayerDAO()
+        _player = self.__player_DAO.get()
+
+        print(_player.fighters[0].attack.power)
+        print(_player.fighters[1].attack.power)
+        print(_player.fighters[2].attack.power)
+
+        if _player == None:
+            self.__player = Player(self.__fighter_controller.generate_starting_fighters())
+            self.__player_DAO.add(self.__player)
+        else:
+            self.__player = _player
+
     
     @property
     def player(self):
