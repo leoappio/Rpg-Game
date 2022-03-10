@@ -7,19 +7,18 @@ class PlayerDAO(DAO):
     def add(self, player):
         from Model.player import Player
         if((player is not None) and isinstance(player, Player)):
-            super().add('player',player)
+            super().add(1,player)
 
 
     def update(self, player):
         from Model.player import Player
         if((player is not None) and isinstance(player, Player)):
-            super().update('player',player)
-
+            super().update(1,player)
 
     def get(self):
-        return super().get('player')
+        return super().get(1)
 
 
     def remove(self):
-        return super.remove('player')
+        return super().remove(1)
 

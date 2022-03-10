@@ -1,17 +1,18 @@
 from View.fighter_view import FighterView
 from Model.fighter import Fighter
 import random
+from DAO.fighters_dao import FightersDAO
 
 class FighterController():
     def __init__(self, game_controller):
         self.__fighter_view = FighterView()
         self.__game_controller = game_controller
-        self.__fighters = []
+        self.__fighters_DAO = FightersDAO()
 
     
     @property
     def fighters(self):
-        return self.__fighters
+        return self.__fighters_DAO.get_all()
 
     
     def show_all_fighters_from_player(self, fighters_list):
@@ -28,7 +29,7 @@ class FighterController():
 
     def see_all_fighters(self):
         fighters_data_list = []
-        for counter,fighter in enumerate(self.__fighters):
+        for counter,fighter in enumerate(self.__fighters_DAO.get_all()):
             fighter_data = {'fighter_number': counter+1,
                             'fighter_name':fighter.name,
                             'attack_name':fighter.attack.name,
@@ -43,7 +44,7 @@ class FighterController():
     
     
     def select_fighters_to_battle(self):
-        possible_fighters = self.__fighters.copy()
+        possible_fighters = self.__fighters_DAO.get_all().copy()
         selected_fighters = []
 
         for i in range(3):
@@ -61,19 +62,20 @@ class FighterController():
             fighters_list.append(fighter.name+'\n'+'Attack - '+str(fighter.attack.power)+' power \n'+'Defense - '+str(fighter.defense.power)+' power \n Life '+str(fighter.life)+'/100')
         
         number_selected = self.__fighter_view.screen_select_fighter(fighters_list)
-        fighter_selected = fighters[number_selected]
+        fighter_selected = list(fighters)[number_selected]
 
-        print(number_selected)
-        print(fighter_selected.name)
 
         return fighter_selected
     
 
     def edit_fighter(self):
-        fighter = self.select_fighter(self.__fighters)
+        fighter = self.select_fighter(self.__fighters_DAO.get_all())
         new_name = self.__fighter_view.edit_name_fighter(fighter.name)
         self.__game_controller.append_to_history(fighter.name + ' has changed their name to ' + new_name + '.')
         fighter.name = new_name
+
+        self.__fighters_DAO.update(fighter)
+
 
         fighter_data = {'fighter_number': 'Stats',
                             'fighter_name':fighter.name,
@@ -88,13 +90,11 @@ class FighterController():
     
 
     def sell_fighter(self):
-        if len(self.__fighters) >3:
-            fighter = self.select_fighter(self.__fighters)
+        if len(self.__fighters_DAO.get_all()) > 3:
+            fighter = self.select_fighter(self.__fighters_DAO.get_all())
             self.__game_controller.append_to_history(fighter.name + ' was sold.')
-            self.__game_controller.player.fighters.remove(fighter)
 
-            self.__fighters.remove(fighter)
-            
+            self.__fighters_DAO.remove(fighter.id)
             self.__game_controller.player.add_coins(15)
             self.fighter_menu()
         else:
@@ -115,10 +115,9 @@ class FighterController():
                               fighter_skills['defense'],
                               100)
             
-            self.__game_controller.player.add_fighter(fighter)
             self.__game_controller.player.remove_coins(20)
 
-            self.__fighters.append(fighter)
+            self.__fighters_DAO.add(fighter)
 
             fighter_data = {'fighter_number': 'Stats',
                             'fighter_name':fighter.name,
@@ -138,7 +137,7 @@ class FighterController():
 
     def improve_fighter_skill(self):
         if self.__game_controller.player.coin_balance >= 5:
-            fighter = self.select_fighter(self.__fighters)
+            fighter = self.select_fighter(self.__fighters_DAO.get_all())
             option = self.__fighter_view.show_improve_skill_menu()
 
             self.__game_controller.append_to_history('5 coins spent.')
@@ -149,6 +148,8 @@ class FighterController():
                 fighter.defense.increase_power()
                 text = fighter.name + '\'s ' + fighter.defense.name + ' increased by 3 points.'
             self.__game_controller.append_to_history(text)
+
+            self.__fighters_DAO.update(fighter)
             
             self.__game_controller.player.remove_coins(5)
             
@@ -170,8 +171,11 @@ class FighterController():
 
     def complete_fighter_life(self):
         if self.__game_controller.player.coin_balance >= 10:
-            fighter = self.select_fighter(self.__fighters)
+            fighter = self.select_fighter(self.__fighters_DAO.get_all())
             fighter.complete_life()
+
+            self.__fighters_DAO.update(fighter)
+
             self.__game_controller.player.remove_coins(10)
 
             fighter_data = {'fighter_number': 'Stats',
@@ -205,6 +209,7 @@ class FighterController():
             defense_power = random_skills['defense']
             fighter = Fighter('Fighter '+str(num), 'Attack', attack_power, 'Defense', defense_power, 100)
             generated_fighters.append(fighter)
+            self.__fighters_DAO.add(fighter)
 
             self.__fighters = generated_fighters.copy()
         

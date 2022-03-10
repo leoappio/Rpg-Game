@@ -22,5 +22,5 @@ class BossesDAO(DAO):
 
     def remove(self, boss_id: int):
         if isinstance(boss_id,int):
-            return super.remove(boss_id)
+            return super().remove(boss_id)
 

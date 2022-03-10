@@ -3,10 +3,10 @@ from Model.fighter import Fighter
 from DAO.player_dao import PlayerDAO
 
 class Player():
-    def __init__(self,initial_fighters):
+    def __init__(self,initial_fighters,coin_balance, battle):
         self.__fighters = initial_fighters
-        self.__coin_balance = 50
-        self.__current_battle = 1
+        self.__coin_balance = coin_balance
+        self.__current_battle = battle
         self.__player_DAO = PlayerDAO()
  
 
@@ -18,6 +18,7 @@ class Player():
     def add_coins(self,quantity):
         if quantity > 0:
             self.__coin_balance =  self.__coin_balance + quantity
+            self.__player_DAO.add(self)
             self.__player_DAO.update(self)
         else:
             raise InvalidParameterException('quantity','add coins','Player')
@@ -27,6 +28,7 @@ class Player():
     def remove_coins(self,quantity):
         if quantity > 0:
             self.__coin_balance =  self.__coin_balance - quantity
+            self.__player_DAO.add(self)
             self.__player_DAO.update(self)
         else:
             raise InvalidParameterException('quantity','remove coins','Player')
@@ -39,6 +41,7 @@ class Player():
 
     def add_one_to_current_battle(self):
         self.__current_battle = self.__current_battle + 1
+        self.__player_DAO.add(self)
         self.__player_DAO.update(self)
 
     

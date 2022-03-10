@@ -16,15 +16,12 @@ class GameController():
         self.__player_DAO = PlayerDAO()
         _player = self.__player_DAO.get()
 
-        print(_player.fighters[0].attack.power)
-        print(_player.fighters[1].attack.power)
-        print(_player.fighters[2].attack.power)
-
         if _player == None:
-            self.__player = Player(self.__fighter_controller.generate_starting_fighters())
+            self.__player = Player(self.__fighter_controller.generate_starting_fighters(),50,1)
             self.__player_DAO.add(self.__player)
         else:
             self.__player = _player
+            print(len(self.__player_DAO.get_all()))
 
     
     @property

@@ -7,7 +7,6 @@ class HomeView(BaseView):
 
     def __init__(self):
         self.__window = None
-        self.init_components(50,1)
     
 
     def show_home_screen_options(self, coins_quantity, current_battle):
