@@ -51,11 +51,11 @@ class HomeView(BaseView):
 
 
     def defeat(self):
-        print('You Lost!')
+        self.show_message('You have been defeated!')
 
 
     def victory(self):
-        input('You Won! Press enter to continue')
+        self.show_message('You\'ve Won! Press enter to continue')
 
 
     def show_history(self, data):
@@ -66,27 +66,4 @@ class HomeView(BaseView):
 
 
     def ending(self):
-        self.clear_screen()
-        input('Congratulations, you finished the game!')
-        input('Press enter to continue')
-
-
-    def select_fighters_for_battle(self):
-        self.clear_screen()
-        print('---- Please, select 3 fighters for this battle. ----')
-
-    def history_filter(self, fighters, max_value):
-        self.clear_screen()
-        print('---- Choose which fighter to show their history ----')
-        print('1- Everybody')
-        for fighter in fighters:
-            print(fighter[0] + '- ' + fighter[1])
-        while True:
-            try:
-                value = input('Choose one option:')
-                if int(value) > 1 or int(value) <= max_value:
-                    return int(value)
-                else:
-                    raise InvalidChoiceException()
-            except Exception as e:
-                print('Invalid Choice!')
+        self.show_message('Congratulations, you finished the game!')

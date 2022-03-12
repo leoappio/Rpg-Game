@@ -4,14 +4,18 @@ from Model.combat import Combat
 class CombatController():
     def __init__(self):
         self.__combat_view = CombatView()
-        self.__combat = False
+        self.__combats = []
 
     def new_combat(self, attacker, defender):
-        self.__combat = Combat(attacker.attack.power, defender.defense.power, attacker.name, defender.name)
-        self.calculate_result()
-        return self.__combat
+        combat = Combat(attacker.attack.power, defender.defense.power, attacker.name, defender.name)
+        self.__combats.append(combat)
+        self.calculate_result(combat)
+        defender.decrease_life(combat.result)
+        message = attacker.name + ' dealt ' + str(combat.result) + ' damage to ' + defender.name
+        self.__combat_view.show_message(message)
+        return message
 
-    def calculate_result(self):
-        self.__combat.result = self.__combat.attack - self.__combat.defense
-        if self.__combat.result < 0:
-            self.__combat.result = 0
+    def calculate_result(self, combat):
+        combat.result = combat.attack - combat.defense
+        if combat.result < 0:
+            combat.result = 0

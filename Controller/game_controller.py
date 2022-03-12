@@ -1,3 +1,4 @@
+from Controller.history_controller import HistoryController
 from View.home_view import HomeView
 from Controller.fighter_controller import FighterController
 from Controller.boss_controller import BossController
@@ -12,7 +13,7 @@ class GameController():
         self.__fighter_controller = FighterController(self)
         self.__boss_controller = BossController()
         self.__battle_controller = BattleController(self)
-        self.__history = []
+        self.__history_controller = HistoryController()
         self.__player_DAO = PlayerDAO()
         _player = self.__player_DAO.get()
 
@@ -22,7 +23,6 @@ class GameController():
         else:
             self.__player = _player
             print(len(self.__player_DAO.get_all()))
-
     
     @property
     def player(self):
@@ -38,12 +38,11 @@ class GameController():
         else:
             fighters = self.__player.fighters
         boss = self.__boss_controller.generate_new_boss(self.__player.current_battle)
-        outcome, battle = self.__battle_controller.start_new_battle(boss, self.__player.current_battle, fighters)
+        outcome, messages = self.__battle_controller.start_new_battle(boss, self.__player.current_battle, fighters)
         if outcome:
-            self.append_to_history('---%s %s and %s vs %s---' % (fighters[0].name, fighters[1].name, fighters[2].name, battle.boss.name))
-            for data in battle.combats:
-                text = '%s dealt %d damage to %s' % (data.attacker, data.result, data.defender)
-                self.append_to_history(text)
+            self.append_to_history(str('---%s %s and %s vs %s---' % (fighters[0].name, fighters[1].name, fighters[2].name, boss.name)))
+            for data in messages:
+                self.append_to_history(data)
             self.player.add_coins(self.__player.current_battle*5)
             if self.__player.current_battle != 10:
                 self.__player.add_one_to_current_battle()
@@ -58,24 +57,10 @@ class GameController():
         self.__fighter_controller.fighter_menu()
     
     def history(self):
-        fighters = []
-        number = 1
-        for fighter in self.__player.fighters:
-            number += 1
-            fighters.append([str(number), fighter.name])
-        filter = self.__home_screen.history_filter(fighters, number)
-        if filter == 1:
-            history = self.__history
-        else:
-            history = []
-            filter = self.__player.fighters[filter-2].name
-            for event in self.__history:
-                if filter in event:
-                    history.append(event)
-        self.__home_screen.show_history(history)
+        self.__history_controller.filter_events()
     
     def open_screen(self):
-        options_list = {1: self.new_battle, 2: self.fighters_menu, 3: self.history}
+        options_list = {0: self.open_screen, 1: self.new_battle, 2: self.fighters_menu, 3: self.history}
         chosen_option = self.__home_screen.show_home_screen_options(self.__player.coin_balance, self.__player.current_battle)
         chosen_function = options_list[chosen_option]
         chosen_function()
@@ -87,4 +72,4 @@ class GameController():
         self.__home_screen.defeat()
 
     def append_to_history(self, text):
-        self.__history.append(text)
+        self.__history_controller.new_event(text)
