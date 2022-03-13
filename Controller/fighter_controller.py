@@ -44,7 +44,7 @@ class FighterController():
     
     
     def select_fighters_to_battle(self):
-        possible_fighters = self.__fighters_DAO.get_all().copy()
+        possible_fighters = list(self.__fighters_DAO.get_all()).copy()
         selected_fighters = []
 
         for i in range(3):

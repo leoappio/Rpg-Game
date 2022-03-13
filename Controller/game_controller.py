@@ -22,7 +22,6 @@ class GameController():
             self.__player_DAO.add(self.__player)
         else:
             self.__player = _player
-            print(len(self.__player_DAO.get_all()))
     
     @property
     def player(self):
@@ -33,10 +32,10 @@ class GameController():
             self.open_screen()
     
     def prepare_battle(self):
-        if len(self.__player.fighters) > 3:
+        if len(self.__fighter_controller.fighters) > 3:
             fighters = self.__fighter_controller.select_fighters_to_battle()
         else:
-            fighters = self.__player.fighters
+            fighters = self.__fighter_controller.fighters
         boss = self.__boss_controller.generate_new_boss(self.__player.current_battle)
         outcome, messages = self.__battle_controller.start_new_battle(boss, self.__player.current_battle, fighters)
         if outcome:
@@ -58,9 +57,12 @@ class GameController():
     
     def history(self):
         self.__history_controller.filter_events()
+
+    def close_game(self):
+        exit(0)
     
     def open_screen(self):
-        options_list = {0: self.open_screen, 1: self.prepare_battle, 2: self.fighters_menu, 3: self.history}
+        options_list = {0: self.close_game, 1: self.prepare_battle, 2: self.fighters_menu, 3: self.history}
         chosen_option = self.__home_screen.show_home_screen_options(self.__player.coin_balance, self.__player.current_battle)
         chosen_function = options_list[chosen_option]
         chosen_function()
@@ -68,7 +70,7 @@ class GameController():
     def defeat(self):
         self.__history = []
         self.__player.current_battle = 1
-        self.__player = Player(self.__fighter_controller.generate_starting_fighters())
+        self.__player = Player(self.__fighter_controller.generate_starting_fighters(),50,1)
         self.__home_screen.defeat()
 
     def append_to_history(self, text):

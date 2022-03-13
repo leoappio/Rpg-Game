@@ -24,7 +24,7 @@ class HomeView(BaseView):
 
         if values ['0'] or button in (None,'Cancel'):
             option = 0
-        
+       
         self.close()
         return option
 
