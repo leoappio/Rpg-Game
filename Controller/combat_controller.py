@@ -7,7 +7,7 @@ class CombatController():
         self.__combats = []
 
     def new_combat(self, attacker, defender):
-        combat = Combat(attacker.attack.power, defender.defense.power, attacker, defender)
+        combat = Combat(attacker, defender)
         self.__combats.append(combat)
         self.calculate_result(combat)
         defender.decrease_life(combat.result)

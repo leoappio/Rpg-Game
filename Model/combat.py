@@ -2,11 +2,9 @@ from Model.fighter import Fighter
 from Model.boss import Boss
 from Model.Exceptions.InvalidParameterException import InvalidParameterException
 class Combat():
-    def __init__(self, attack, defense, attacker, defender):
+    def __init__(self, attacker, defender):
         self.__attacker = attacker
         self.__defender = defender
-        self.__attack = attack
-        self.__defense = defense
         self.__result = 0
 
     @property
@@ -32,23 +30,12 @@ class Combat():
             raise InvalidParameterException('defender','defender setter','Combat')
 
     @property
-    def attack(self):
-        return self.__attack
+    def result(self):
+        return self.__result
 
-    @attack.setter
-    def attack(self, attack):
-        if isinstance(attack, int):
-            self.__attack = attack
+    @result.setter
+    def result(self, result):
+        if isinstance(result, int):
+            self.__result = result
         else:
-            raise InvalidParameterException('attack','attack setter','Combat') 
-
-    @property
-    def defense(self):
-        return self.__defense
-
-    @defense.setter
-    def defense(self, defense):
-        if isinstance(defense, int):
-            self.__defense = defense
-        else:
-            raise InvalidParameterException('defense','defense setter','Combat') 
+            raise InvalidParameterException('result','result setter','Combat')
