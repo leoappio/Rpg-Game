@@ -71,11 +71,15 @@ class FighterView(BaseView):
             layout_item = [sg.Radio(fighter,"RD1", key = str(index))]
             layout.append(layout_item)
 
-        layout.append([sg.Button('Confirm'), sg.Cancel('Cancelar')])
+        layout.append([sg.Button('Confirm'), sg.Cancel('Cancel')])
 
         self.__window = sg.Window('RPG Game - POO 2').Layout(layout)
 
         button, values = self.__window.Read()
+
+        if button in (None,'Cancel'):
+            self.__window.Close()
+            return -1 
 
         for index in range(0,len(fighters_list)):
             if values[str(index)]:

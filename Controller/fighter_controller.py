@@ -62,6 +62,10 @@ class FighterController():
             fighters_list.append(fighter.name+'\n'+'Attack - '+str(fighter.attack.power)+' power \n'+'Defense - '+str(fighter.defense.power)+' power \n Life '+str(fighter.life)+'/100')
         
         number_selected = self.__fighter_view.screen_select_fighter(fighters_list)
+        
+        if number_selected == -1:
+            self.fighter_menu()
+
         fighter_selected = list(fighters)[number_selected]
 
 
