@@ -1,9 +1,12 @@
+from Model.Exceptions.InvalidParameterException import InvalidParameterException
+from Model.boss import Boss
+from Model.combat import Combat
+from Model.fighter import Fighter
+from Model.player import Player
 class Battle():
-    def __init__(self, boss, player, fighters):
+    def __init__(self, boss, fighters):
         self.__fighters = fighters
         self.__boss = boss
-        self.__player = player
-        self.__combats = []
 
     @property
     def fighters(self):
@@ -11,7 +14,14 @@ class Battle():
 
     @fighters.setter
     def fighters(self, fighters):
-        self.__fighters = fighters
+        validation = True
+        for fighter in fighters:
+            if not isinstance(fighter, Fighter):
+                validation = False
+        if validation:
+            self.__fighters = fighters
+        else:
+            raise InvalidParameterException('fighters', 'fighters setter', 'Battle') 
 
     @property
     def boss(self):
@@ -19,25 +29,13 @@ class Battle():
 
     @boss.setter
     def boss(self, boss):
-        self.__boss = boss
-
-    @property
-    def player(self):
-        return self.__player
-
-    @player.setter
-    def player(self, player):
-        self.__player = player
-
-    @property
-    def combats(self):
-        return self.__combats
-
-    def add_combat(self, combat):
-        self.__combats.append(combat)
-
-    def remove_combat(self, combat):
-        self.__combats.remove(combat)
+        if isinstance(boss, Boss):
+            self.__boss = boss
+        else:
+            raise InvalidParameterException('boss', 'boss setter', 'Battle')
 
     def add_fighter(self, fighter):
-        self.__fighters.append(fighter)
+        if isinstance(fighter, Fighter):
+            self.__fighters.append(fighter)
+        else:
+            raise InvalidParameterException('fighter', 'add_fighter', 'Battle')

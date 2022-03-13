@@ -5,18 +5,17 @@ from Controller.combat_controller import CombatController
 import random
 
 class BattleController():
-    def __init__(self, game_controller):
+    def __init__(self):
         self.__battle_view = BattleView()
-        self.__game_controller = game_controller
         self.__combat_controller = CombatController()
-        self.__battle = False
+        self.__battles = []
         self.__battle_messages = []
 
     def start_new_battle(self, boss, battle_number, fighters):
-        self.__battle = Battle(boss, self.__game_controller.player, fighters)
+        self.__battles.append(Battle(boss, fighters))
         while True:
             fighter = self.show_battle(boss, battle_number, fighters)
-            self.add_combat(fighters[fighter], self.__battle.boss)
+            self.add_combat(fighters[fighter], self.__battles[-1].boss)
             if boss.life <= 0:
                 return True, self.__battle_messages
             result = self.boss_attack(boss, fighters)
@@ -57,7 +56,7 @@ class BattleController():
         return fighter_data
 
     def check_if_player_won(self):
-        if self.__battle.boss.life <= 0:
+        if self.__battles[-1].boss.life <= 0:
             return True
         else:
             return False
