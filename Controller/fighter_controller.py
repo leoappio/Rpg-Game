@@ -249,3 +249,6 @@ class FighterController():
         chosen_function = options_list[chosen_option]
         chosen_function()
         
+    def save_multiples(self, fighters):
+        for fighter in fighters:
+            self.__fighters_DAO.update(fighter)

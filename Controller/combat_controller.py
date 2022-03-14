@@ -16,6 +16,6 @@ class CombatController():
         return message
 
     def calculate_result(self, combat):
-        combat.result = combat.attack - combat.defense
+        combat.result = combat.attacker.attack.power - combat.defender.defense.power
         if combat.result < 0:
             combat.result = 0

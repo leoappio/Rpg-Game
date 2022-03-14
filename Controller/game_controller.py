@@ -33,11 +33,15 @@ class GameController():
     
     def prepare_battle(self):
         if len(self.__fighter_controller.fighters) > 3:
-            fighters = self.__fighter_controller.select_fighters_to_battle()
+            _fighters = self.__fighter_controller.select_fighters_to_battle()
         else:
-            fighters = self.__fighter_controller.fighters
+            _fighters = self.__fighter_controller.fighters
+        fighters = []
+        for fighter in _fighters:
+            fighters.append(fighter)
         boss = self.__boss_controller.generate_new_boss(self.__player.current_battle)
         outcome, messages = self.__battle_controller.start_new_battle(boss, self.__player.current_battle, fighters)
+        self.__fighter_controller.save_multiples(fighters)
         if outcome:
             self.append_to_history(str('---%s %s and %s vs %s---' % (fighters[0].name, fighters[1].name, fighters[2].name, boss.name)))
             for data in messages:

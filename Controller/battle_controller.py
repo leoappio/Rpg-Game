@@ -15,7 +15,10 @@ class BattleController():
         self.__battles.append(Battle(boss, fighters))
         while True:
             fighter = self.show_battle(boss, battle_number, fighters)
-            self.add_combat(fighters[fighter], self.__battles[-1].boss)
+            if isinstance(fighter, int):
+                self.add_combat(fighters[fighter], self.__battles[-1].boss)
+            else:
+                continue
             if boss.life <= 0:
                 return True, self.__battle_messages
             result = self.boss_attack(boss, fighters)
